@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title></title>
+  
+  <link rel="stylesheet" href="css/jquery-mobile.1.3.2.css">
+  
+  <!-- Extra Codiqa features -->
+  <link rel="stylesheet" href="css/codiqa.ext.css">
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+ 
+ 
+  <!-- jQuery and jQuery Mobile -->
+  <script type="text/javascript" src="js/jquery/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery/jquery.mobile-1.3.2.min.js"></script>
+
+  
+  <script type="text/javascript" src="js/lib/f_include.js"></script>
+  <script type="text/javascript" src="js/invivo/login.js"></script>
+   
+</head>
+<body>
+<!-- Home -->
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+        <h3>
+            Header
+        </h3>
+    </div>
+    <div data-role="content">
+        <a data-role="button" data-theme="a" href="#" data-icon="gear" data-iconpos="top" onclick="capturePhoto();">
+            Prendre une photo
+        </a>
+        <a data-role="button" data-theme="e" href="history.html" data-icon="grid" data-iconpos="top">
+            Historique
+        </a>
+        <a data-role="button" href="moderation.html" data-icon="check" data-iconpos="top">
+            Modération
+        </a>
+    </div>
+</div>
+</body>
+</html>
