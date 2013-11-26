@@ -69,7 +69,9 @@ C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\ass
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\handlebars.js\handlebars.runtime.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\invivo\index.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\invivo\login.js \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\invivo\main.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\invivo\photo.js \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\invivo\upload.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\jquery\jquery.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\jquery\jquery.mobile-1.3.2.min.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\behave.js \
@@ -91,6 +93,7 @@ C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\ass
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\image\PictureManager.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\misc\ELogger.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\misc\EObject.js \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\misc\GoTo.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\misc\Tools.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\network\ENetwork.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\js\lib\network\ENetworkPackage.js \
@@ -106,6 +109,7 @@ C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\ass
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.file-transfer \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.geolocation \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.globalization \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media-capture \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.network-information \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.splashscreen \
@@ -168,6 +172,9 @@ C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\ass
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.globalization\www \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.globalization\www\globalization.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.globalization\www\GlobalizationError.js \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media\www \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media\www\Media.js \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media\www\MediaError.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media-capture\www \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media-capture\www\capture.js \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\assets\www\plugins\org.apache.cordova.media-capture\www\CaptureAudioOptions.js \

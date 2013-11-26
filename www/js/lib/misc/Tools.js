@@ -26,9 +26,9 @@ Tools.IsImage = function(mime) {
 
 Tools.DisplayLoadingBox = function(str) {
     
-    var textVisible = $.mobile.loader.prototype.options.textVisible;
+    var textVisible = $j.mobile.loader.prototype.options.textVisible;
         
-    $.mobile.loading( "show", {
+    $j.mobile.loading( "show", {
             text: str,
             textVisible: textVisible
     });
@@ -38,7 +38,7 @@ Tools.DisplayLoadingBox = function(str) {
 };
 
 Tools.HideLoadingBox = function() {
-    $.mobile.loading( "hide" );
+    $j.mobile.loading( "hide" );
 };
 
 Tools.SizeWithoutAlteringScale = function(img, maxsize) {
@@ -64,11 +64,10 @@ Tools.SizeWithoutAlteringScale = function(img, maxsize) {
 	return size;
 };
 
-Tools.ToastBox = function(str, dur) {
-    alert(str);
-	/*var toast = Titanium.UI.createNotification({
-			    duration: dur,
-			    message: str
-			});
-	toast.show();*/
+Tools.ToastBox = function(message, title, buttonName, callback) {
+    navigator.notification.alert(message, callback, title, buttonName)
 };
+
+Tools.Vibrate = function(dur) {
+    navigator.notification.vibrate(dur);
+}

@@ -5,15 +5,12 @@ var objTools = require('Tools');*/
 
 include('js/lib/image/ImageObject.js');
 include('js/lib/image/ImageProxy.js');
-include('js/lib/image/Tools.js');
+include('js/lib/misc/Tools.js');
 
 var Photo = function() {
 };
 
 Photo.takePhotoExt = function(resizeParam, success, errorOrCancel) {
-
-    alert('Destination type : ' + navigator.camera.DestinationType.DATA_URL);
-
     var params = {
         quality: resizeParam.resize.quality,
         destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -28,12 +25,13 @@ Photo.takePhotoExt = function(resizeParam, success, errorOrCancel) {
 
     navigator.camera.getPicture(
             function(imageData) { // success
-                /*var image = new ImageObject();
-                image.Init("data:image/jpeg;base64," + image);*/
+                var image = new ImageObject();
+                image.Init(imageData);
                 
-                navigator.notification.alert('ImageData : ' + imageData);
+                var hm = new HistoryManager();
+                hm.AddImage(image);
         
-                success(imageData);
+                success(image);
             }, function(errMsg) { // error
                 navigator.notification.alert("Veuillez nous excuser. Une erreur s'est produite lors de la prise de vue.");
                 console.error("[EMAGALA-PHOTO]"+errMsg);

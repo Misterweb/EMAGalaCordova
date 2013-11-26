@@ -6,7 +6,7 @@ var ENetwork = function() {
 
 // Global
 ENetwork.typeNetwork = 0; // 0 -> internet, 1 -> local wifi
-ENetwork.urlServer   = 'http://localhost:8383';
+ENetwork.urlServer   = 'http://146.19.17.193:3000';
 ENetwork.urlPost     = '/authenticated/publish?token='; // append token
 ENetwork.urlTestGet  = '/authenticated/?token=';
 ENetwork.urlLogin    = '/public/login';
@@ -33,8 +33,9 @@ ENetwork.CheckNetwork = function() {
 
 ENetwork.CheckLogged  = function() {
 	var bRet = false;
-	if(null != ENetwork.token) {
-		if(ENetwork.token.length == 32) {
+        var sessToken = window.sessionStorage.getItem("token");
+	if(null != sessToken) {
+		if(sessToken.length == 32) {
 			bRet = true;
 		}
 	}
@@ -53,20 +54,20 @@ ENetwork.GetTypeSpecs = function(typePackage) {
 	
 	switch(typePackage) {
 		case PackageObject.Type.IMAGE:
-			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlPost + ENetwork.token;
+			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlPost + window.sessionStorage.getItem("token");
 			break;
 		case PackageObject.Type.LOGIN:
 			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlLogin;
 			break;
 		case PackageObject.Type.GETMODERATE:
-			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlModerate + ENetwork.token;
+			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlModerate + window.sessionStorage.getItem("token");
 			dataToReturn.type 		= 'GET';
 			break;
 		case PackageObject.Type.SETMODERATE:
-			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlModerate + ENetwork.token;
+			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlModerate + window.sessionStorage.getItem("token");
 			break;
 		case PackageObject.Type.NONE:
-			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlTestGet + ENetwork.token;
+			dataToReturn.url  		= ENetwork.urlServer + ENetwork.urlTestGet + window.sessionStorage.getItem("token");
 			dataToReturn.type 		= 'GET';
 			break;
 		default:
@@ -82,10 +83,21 @@ ENetwork.SendData = function(pack, success, failed, progressupload) {
     ELogger.debug("SendData");
 	if(ENetwork.CheckNetwork()) {
             try {
-                  $.ajax({
+                console.log(JSON.stringify(pack.data));
+                $j.post(ENetwork.GetTypeSpecs(pack.type).url,{file:pack.file, head:pack.head, data:pack.data})
+                  .done(function(data) {
+                      success(data);
+                      ELogger.debug("SendData SUCCESS");
+                  })
+                  .fail(function(err) {
+                        failed(err);
+                        ELogger.debug("SendData ERROR");
+                  });
+
+                 /*$j.ajax({
                     type: ENetwork.GetTypeSpecs(pack.type).type,
                     url: ENetwork.GetTypeSpecs(pack.type).url,
-                    data: {file:pack.file, head:pack.head, data:pack.data},
+                    data:JSON.stringify({"file":pack.file, "head":pack.head, "data":pack.data}),
                     success: function (data, textStatus, jqXHR) {
                       success(data);
                       ELogger.debug("SendData SUCCESS");
@@ -107,13 +119,14 @@ ENetwork.SendData = function(pack, success, failed, progressupload) {
                         }
                       }
                     },
-                    processData: false
-                  }).done(function(e,err) {
-                      alert(err);
-                  });
+                    processData: false,
+                    contentType: 'application/json'
+                  });*/
+            
               } catch(e) {
-                  alert(e);
+                  ELogger.error("Fatal error on SendData (" + e + ")");
               }
+              
 		/*var httpClient = Ti.Network.createHTTPClient({
 			onreadystatechange : function() {
 			    if (this.readyState == 4) {
@@ -159,7 +172,7 @@ ENetwork.LoginUser = function(data, success, failed) {
 			JSONret = JSON.parse(ret);
 					
 			if(JSONret.data.length == 32) { // only 32 char allowed (token length)
-				objLogger.info('Token Received ('+ JSONret.data +')');
+				ELogger.info('Token Received ('+ JSONret.data +')');
 				ENetwork.token = JSONret.data;
 				window.sessionStorage.setItem("token", JSONret.data);
 				
@@ -171,7 +184,7 @@ ENetwork.LoginUser = function(data, success, failed) {
 				
 				success(JSONret.data);
 			} else {
-				objLogger.error('Invalid token ('+ ret +')');
+				ELogger.error('Invalid token ('+ ret +')');
 				window.sessionStorage.setItem("token", "");
 				window.sessionStorage.setItem("is_admin", false);
 				failed(ret);
@@ -179,7 +192,7 @@ ENetwork.LoginUser = function(data, success, failed) {
 		}
 
 	}, function(err) {
-		objLogger.error('Error when loggin. (' + err + ')');
+		ELogger.error('Error when loggin. (' + err.toString() + ')');
 		failed(err);
 	}
 	);
@@ -199,32 +212,47 @@ ENetwork.IsLogged  = function() {
 ENetwork.IsAdmin = function() {
 	var bRet = false;
 	
-	if(window.sessionStorage.getItem('is_admin') == true && ENetwork.IsLogged() == true) {
+	if(window.sessionStorage.getItem('is_admin') == "true" && ENetwork.IsLogged() == true) {
 		bRet = true;
 	}
 	
 	return bRet;
 };
 
-ENetwork.SendImage = function(img, success, failed, progressupload) {
-	 var pack = new objPackage();
-	 pack.type  = objPackage.Type.IMAGE;
-	 pack.token = ENetwork.token;
-	 pack.FillWithImg(img);
+ENetwork.SendImage = function(image, success, failed, progressupload) {
+	 var pack = new ENetworkPackage();
+	 pack.type  = ENetworkPackage.Type.IMAGE;
+	 pack.token = window.sessionStorage.getItem("token");
+         pack.head.guid = image.guid;
+         
+         
 	    	
-	 ENetwork.SendData(pack,
-	    function(ret) { // success
-	    	if(ret == 'file-uploaded') {
-	    		success(ret);
-	    	} else {
-	    		failed(ret);
-	    	}
-	    },function(e) { // fail
-	    	failed(e);
-	    },function(progress) {
-			progressupload(progress);
-		}
-	 );
+	 var options = new FileUploadOptions();
+         options.fileKey="file";
+         options.fileName=image.name;
+         options.mimeType="image/jpeg";
+         options.chunkedMode=true;
+
+         options.params = {pack:pack};
+
+         var ft = new FileTransfer();
+         
+         ft.onprogress = function(progressEvent) {
+             if(progressupload) {                 
+                 var percentage = 0;
+                 if(progressEvent.lenghtComputable) {
+                    percentage = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
+                 }
+                 
+                 // log upload progress to console
+                 progressupload(percentage);           
+         
+             }
+         }
+         
+         
+         ft.upload(image.originFullPath, encodeURI(ENetwork.GetTypeSpecs(pack.type).url), success, failed, options);
+         
 };
 
 ENetwork.SendModerate = function(theguid, valid, success, failed) {
@@ -267,7 +295,7 @@ ENetwork.GetLastImageToModerate = function(success, failed, progressupload) {
 				} else {
 
 					if(retParsed.url.length > 0) {
-                                                $.ajax({
+                                                $j.ajax({
                                                     xhr: function()
                                                     {
                                                         var xhr = new window.XMLHttpRequest();
@@ -280,7 +308,7 @@ ENetwork.GetLastImageToModerate = function(success, failed, progressupload) {
                                                                 if(null != progressupload) {
 									progressupload(percentComplete);
 								}
-								objLogger.info('Package getting progress (' + percentComplete + ')');
+								ELogger.info('Package getting progress (' + percentComplete + ')');
                                                             }
                                                         }, false);
                                                         return xhr;

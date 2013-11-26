@@ -12,14 +12,19 @@
   
   <!-- Extra Codiqa features -->
   <link rel="stylesheet" href="css/codiqa.ext.css">
-  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
- 
- 
+  
+
   <!-- jQuery and jQuery Mobile -->
   <script type="text/javascript" src="js/jquery/jquery.js"></script>
+  
+  <script type="text/javascript">
+      var $j = jQuery.noConflict();
+  </script>
+  
   <script type="text/javascript" src="js/jquery/jquery.mobile-1.3.2.min.js"></script>
 
   
+  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
   
   <script type="text/javascript" src="js/invivo/login.js"></script>
    
@@ -36,7 +41,7 @@
         <h2>
             Connexion
         </h2>
-        <form action="" method="POST" data-ajax="false">
+        
             <div data-role="fieldcontain" class="login">
                 <input name="login" id="login" placeholder="Login ..." value="" type="text">
             </div>
@@ -45,7 +50,7 @@
             </div>
             <input id="submit" type="submit" data-icon="check" data-iconpos="top"
                    value="Se connecter" onclick="send_login_password();" class="submit">
-        </form>
+            
         <a data-role="button" data-transition="turn" data-theme="b" href="#page1"
         data-icon="info" data-iconpos="left">
             Aide

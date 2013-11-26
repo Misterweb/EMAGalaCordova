@@ -4,23 +4,37 @@ document.addEventListener("deviceready",onDeviceReady,false);
     // device APIs are available
     //
     function onDeviceReady() {
-        include('js/lib/network/ENetwork.js');
-        include('js/lib/network/ENetworkPackage.js');
-        include('js/lib/misc/Tools.js');
-
+        
+        register_include('js/lib/misc/GoTo.js');
+        register_include('js/lib/network/ENetwork.js');
+        register_include('js/lib/network/ENetworkPackage.js');
+        register_include('js/lib/misc/Tools.js');
+        
+        provoke_include(function() {
+            Tools.DisplayLoadingBox("Vérification");
+            checkLogged();
+            Tools.HideLoadingBox();
+        });
     }
+
+function checkLogged() {
+    if(ENetwork.CheckLogged()) {
+        gotoMain();
+    }
+}
 
 
 function send_login_password(e) {  
 		Tools.DisplayLoadingBox('Connexion');
 		ENetwork.LoginUser(
 	   	{
-		   		login:$("#login").val(),
-		   		pass:$("#pwd").val()
+		   		login:$j("#login").val(),
+		   		pass:$j("#pwd").val()
 		   }, function(e) {
 		   		Tools.HideLoadingBox();
                                 if(ENetwork.CheckLogged()) {
-                                    $.mobile.changePage("../../main.html", { transition: "slideup" });
+                                    gotoMain();
+                                    //$j.mobile.changePage("main.html", {allowSamePageTransition:false,reloadPage:true,changeHash:true, transition: "slideup"});
                                 }
 		   }, function(e) {
 		   		Tools.HideLoadingBox();
@@ -29,9 +43,6 @@ function send_login_password(e) {
 		   		} else {
 		   			alert("Login ou mot de passe incorrect");
 		   		}
-                                
-                                alert("[DEBUG] Force Pass");
-                                 $.mobile.changePage("../../main.html", { transition: "slideup" });
 		   }
 	   );
  }

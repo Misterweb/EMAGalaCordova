@@ -9,7 +9,6 @@ var ImageObject = function() {
 };
 
 ImageObject.prototype.Init = function(data, guid) {
-	var objHistory = HistoryManager;
 	
 	
 	if(null != guid) {
@@ -17,13 +16,24 @@ ImageObject.prototype.Init = function(data, guid) {
 	} else {
 		this.guid 		= Tools.GetNewGuid(); // get a unique id
 	}
-    this.path 		= objHistory.GetDirectoryImg();
-    this.thumbPath 	= objHistory.GetDirectoryImgThumb();
-    this.data 		= null;                                                                                                                                                                                                                                                                                                                                                                                   
-    this.name 		= this.guid + '.' + ImageObject.GetExtensionByMime(data.getMimeType());
-    this.originFullPath = data.getNativePath();
+        
+        this.data 		= data;     
+        this.path 		= data.substring(0, data.lastIndexOf("/") + 1);                                                                                                                                                                                                                                                                                                                                                                                 
+        this.name 		= data.substr(data.lastIndexOf("/") + 1);
+        this.originFullPath = data.substr(data.indexOf(":")+1);
 };
 
+function moveFile(entry, newname, success) {
+    var parent = entry.fullPath,
+        parentName = parent.substring(parent.lastIndexOf('/')+1),
+        parentEntry = new DirectoryEntry(parentName, parent);
+
+    // move the file to a new directory and rename it
+    entry.moveTo(parentEntry, newname, success, function(f) {
+        alert("PAs bien !")
+    });
+}
+/*
 ImageObject.prototype.GetImageData = function() {
 	var f = Ti.Filesystem.getFile(this.GetImgPath());
 	var toReturn = null;
@@ -75,5 +85,5 @@ ImageObject.prototype.GetImgPath = function() {
 ImageObject.prototype.GetThumbPath = function() {
 	return this.thumbPath + Ti.Filesystem.separator + this.name;
 };
-
+*/
 //module.exports = ImageObject;

@@ -11,19 +11,21 @@ var ENetworkPackage = function() {
 
 // @param : ImageObject
 ENetworkPackage.prototype.FillWithImg = function(objImg) {
-	this.file = objImg.GetImageData();
-	this.head = JSON.stringify({
+        
+    
+	this.file = objImg;
+	this.head = {
 		'guid':objImg.guid,
 		'name':objImg.name,
 		'sended':objImg.sended
-	});
+	};
 };
 
 ENetworkPackage.prototype.FillWithLogin = function(login, pass) {
-	this.data = JSON.stringify({
+	this.data = {
 		'uid':login,
 		'password':CryptoJS.MD5(pass).toString()
-	});
+	};
 };
 
 

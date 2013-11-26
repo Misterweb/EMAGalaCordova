@@ -96,6 +96,12 @@ C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\globalization\Globalization$1.class \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\globalization\Globalization.class \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\globalization\GlobalizationError.class \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\media\AudioHandler.class \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer$1.class \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer$MODE.class \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer$STATE.class \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\media\AudioPlayer.class \
+C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\media\FileHelper.class \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\mediacapture\Capture.class \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\mediacapture\FileHelper.class \
 C:\Users\Jean-Hugues\Dropbox\INFRES\Projets\EMAGalaCordova\platforms\android\bin\classes\org\apache\cordova\networkinformation\NetworkManager$1.class \
