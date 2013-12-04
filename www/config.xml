@@ -4,28 +4,16 @@
     <description>Application officielle du Gala des Mines d'Alès</description>
     <author email="contact@mines-ales.fr" href="http://www.mines-ales.fr">INFRES 4</author>
     <access origin="*"/>
-    <preference name="fullscreen" value="true"/>
+    <preference name="fullscreen" value="false"/>
     <preference name="webviewbounce" value="true"/>
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App"/>
     </feature>
-    <feature name="Battery">
-        <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener"/>
-    </feature>
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher"/>
     </feature>
-    <feature name="Contacts">
-        <param name="android-package" value="org.apache.cordova.contacts.ContactManager"/>
-    </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device"/>
-    </feature>
-    <feature name="Accelerometer">
-        <param name="android-package" value="org.apache.cordova.devicemotion.AccelListener"/>
-    </feature>
-    <feature name="Compass">
-        <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener"/>
     </feature>
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.dialogs.Notification"/>
@@ -35,15 +23,6 @@
     </feature>
     <feature name="FileTransfer">
         <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer"/>
-    </feature>
-    <feature name="Geolocation">
-        <param name="android-package" value="org.apache.cordova.geolocation.GeoBroker"/>
-    </feature>
-    <feature name="Globalization">
-        <param name="android-package" value="org.apache.cordova.globalization.Globalization"/>
-    </feature>
-    <feature name="Media">
-        <param name="android-package" value="org.apache.cordova.media.AudioHandler"/>
     </feature>
     <feature name="Capture">
         <param name="android-package" value="org.apache.cordova.mediacapture.Capture"/>

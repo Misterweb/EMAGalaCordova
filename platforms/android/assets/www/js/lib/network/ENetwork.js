@@ -6,7 +6,7 @@ var ENetwork = function() {
 
 // Global
 ENetwork.typeNetwork = 0; // 0 -> internet, 1 -> local wifi
-ENetwork.urlServer   = 'http://146.19.17.193:3000';
+ENetwork.urlServer   = 'http://192.168.173.1:8080';
 ENetwork.urlPost     = '/authenticated/publish?token='; // append token
 ENetwork.urlTestGet  = '/authenticated/?token=';
 ENetwork.urlLogin    = '/public/login';
@@ -80,76 +80,37 @@ ENetwork.GetTypeSpecs = function(typePackage) {
 };
 
 ENetwork.SendData = function(pack, success, failed, progressupload) {
-    ELogger.debug("SendData");
+    ELogger.debug("SendData to " + ENetwork.GetTypeSpecs(pack.type).url);
 	if(ENetwork.CheckNetwork()) {
             try {
                 console.log(JSON.stringify(pack.data));
-                $j.post(ENetwork.GetTypeSpecs(pack.type).url,{file:pack.file, head:pack.head, data:pack.data})
-                  .done(function(data) {
-                      success(data);
-                      ELogger.debug("SendData SUCCESS");
-                  })
-                  .fail(function(err) {
-                        failed(err);
-                        ELogger.debug("SendData ERROR");
-                  });
-
-                 /*$j.ajax({
-                    type: ENetwork.GetTypeSpecs(pack.type).type,
-                    url: ENetwork.GetTypeSpecs(pack.type).url,
-                    data:JSON.stringify({"file":pack.file, "head":pack.head, "data":pack.data}),
-                    success: function (data, textStatus, jqXHR) {
-                      success(data);
-                      ELogger.debug("SendData SUCCESS");
-                    },
-                    error: function (jq, err, httperr) {
-                        failed(err + ' (' + httperr + ')');
-                        ELogger.debug("SendData ERROR");
-                    },
-                    xhrFields: {
-                      // add listener to XMLHTTPRequest object directly for progress (jquery doesn't have this yet)
-                      onprogress: function (progress) {
-                        // calculate upload progress
-                        var percentage = Math.floor((progress.total / progress.totalSize) * 100);
-                        // log upload progress to console
-                        if(null != progressupload) {
-                            progressupload(percentage);
-                            
-                        ELogger.debug("SendData ONPROGRESS");
-                        }
-                      }
-                    },
-                    processData: false,
-                    contentType: 'application/json'
-                  });*/
+                
+                if(ENetwork.GetTypeSpecs(pack.type).type == 'POST') {
+                    $j.post(ENetwork.GetTypeSpecs(pack.type).url,{file:pack.file, head:pack.head, data:pack.data})
+                      .done(function(data) {
+                          success(data);
+                          ELogger.debug("SendData POST SUCCESS");
+                      })
+                      .fail(function(err) {
+                            failed(err);
+                            ELogger.debug("SendData POST ERROR");
+                      });
+                  } else {
+                     $j.get(ENetwork.GetTypeSpecs(pack.type).url,{file:pack.file, head:pack.head, data:pack.data})
+                      .done(function(data) {
+                          success(data);
+                          ELogger.debug("SendData GET SUCCESS");
+                      })
+                      .fail(function(err) {
+                            failed(err);
+                            ELogger.debug("SendData GET ERROR");
+                      });     
+                  }
             
               } catch(e) {
                   ELogger.error("Fatal error on SendData (" + e + ")");
               }
-              
-		/*var httpClient = Ti.Network.createHTTPClient({
-			onreadystatechange : function() {
-			    if (this.readyState == 4) {
-			    	success(this.responseText);
-			    }
-			},
-			onsendstream : function(e) {
-				if(null != progressupload) {
-					progressupload(e.progress * 100);
-				}
-				objLogger.info('Package sending progress (' + e.progress + ')');
-			},
-			onload : function(e){	
-			},
-			onerror : function(e) {
-				objLogger.error('Error on package Network (' + e.error + ')');
-				failed(e.error);
-			}, 
-			timeout : 60000 // TODO
-		});
-		httpClient.open(ENetwork.GetTypeSpecs(pack.type).type, ENetwork.GetTypeSpecs(pack.type).url);
-		
-	    httpClient.send({file:pack.file, head:pack.head, data:pack.data});*/
+
 	} else {
 		failed('NO_NETWORK');
                 
@@ -184,7 +145,7 @@ ENetwork.LoginUser = function(data, success, failed) {
 				
 				success(JSONret.data);
 			} else {
-				ELogger.error('Invalid token ('+ ret +')');
+				ELogger.error('Invalid token ('+ JSON.stringify(ret) +')');
 				window.sessionStorage.setItem("token", "");
 				window.sessionStorage.setItem("is_admin", false);
 				failed(ret);
@@ -192,7 +153,7 @@ ENetwork.LoginUser = function(data, success, failed) {
 		}
 
 	}, function(err) {
-		ELogger.error('Error when loggin. (' + err.toString() + ')');
+		ELogger.error('Error when loggin. (' + JSON.stringify(err) + ')');
 		failed(err);
 	}
 	);
@@ -223,7 +184,7 @@ ENetwork.SendImage = function(image, success, failed, progressupload) {
 	 var pack = new ENetworkPackage();
 	 pack.type  = ENetworkPackage.Type.IMAGE;
 	 pack.token = window.sessionStorage.getItem("token");
-         pack.head.guid = image.guid;
+         pack.head = {'guid' : image.guid};
          
          
 	    	
@@ -240,7 +201,7 @@ ENetwork.SendImage = function(image, success, failed, progressupload) {
          ft.onprogress = function(progressEvent) {
              if(progressupload) {                 
                  var percentage = 0;
-                 if(progressEvent.lenghtComputable) {
+                 if(progressEvent.lengthComputable) {
                     percentage = Math.floor((progressEvent.loaded / progressEvent.total) * 100);
                  }
                  
@@ -256,8 +217,8 @@ ENetwork.SendImage = function(image, success, failed, progressupload) {
 };
 
 ENetwork.SendModerate = function(theguid, valid, success, failed) {
-	var pack = new objPackage();
-	 pack.type  = objPackage.Type.SETMODERATE;
+	var pack = new ENetworkPackage();
+	 pack.type  = ENetworkPackage.Type.SETMODERATE;
 	 pack.token = ENetwork.token;
 	 pack.data  = JSON.stringify(
 	 	{
@@ -280,8 +241,8 @@ ENetwork.SendModerate = function(theguid, valid, success, failed) {
 };
 
 ENetwork.GetLastImageToModerate = function(success, failed, progressupload) {
-	var pack = new objPackage();
-	 pack.type  = objPackage.Type.GETMODERATE;
+	var pack = new ENetworkPackage();
+	 pack.type  = ENetworkPackage.Type.GETMODERATE;
 	 pack.token = ENetwork.token;
 	
 	ENetwork.SendData(pack,
@@ -289,74 +250,16 @@ ENetwork.GetLastImageToModerate = function(success, failed, progressupload) {
 			if(ret == null) {
 				failed('Il n\'y a pas de fichier à modérer.');
 			} else {
-				var retParsed = JSON.parse(ret);
+				//var retParsed = JSON.parse(ret);
+                                var retParsed = ret;
 				if(retParsed.error == 'no-file') {
 					failed('Il n\'y a pas de fichier à modérer.');
 				} else {
 
 					if(retParsed.url.length > 0) {
-                                                $j.ajax({
-                                                    xhr: function()
-                                                    {
-                                                        var xhr = new window.XMLHttpRequest();
-                                                        
-                                                        //Download progress
-                                                        xhr.addEventListener("progress", function(evt) {
-                                                            if (evt.lengthComputable) {
-                                                                var percentComplete = evt.loaded / evt.total;
-                                                                //Do something with download progress
-                                                                if(null != progressupload) {
-									progressupload(percentComplete);
-								}
-								ELogger.info('Package getting progress (' + percentComplete + ')');
-                                                            }
-                                                        }, false);
-                                                        return xhr;
-                                                    },
-                                                    type: 'GET',
-                                                    url: ENetwork.urlServer + '' + retParsed.url,
-                                                    success: function(data) {
-                                                        if(data != null) {
-						        	var img = {
-						        		data : data,
-						        		guid : retParsed.guid
-						        	};
-						        	success(img);
-						        } else {
-						        	failed('Impossible de récupérer l\'image.');
-						        }
-                                                    },
-                                                    error: function(jq, err, httperr) {
-                                                        failed(err + ' (' + httperr + ')');
-                                                    }
-                                                });
+                                            success(ENetwork.urlServer + '' + retParsed.url, retParsed.guid);
+                                               
                                                 
-						/*var xhr = Titanium.Network.createHTTPClient({
-						    onload: function() {
-						        // first, grab a "handle" to the file where you'll store the downloaded data
-						        if(this.responseData != null) {
-						        	var img = {
-						        		data : this.responseData,
-						        		guid : retParsed.guid
-						        	};
-						        	success(img);
-						        } else {
-						        	failed('Impossible de récupérer l\'image.');
-						        }
-						    },
-						    onerror: function(e) {
-						    	failed('Problème de connexion au serveur.' + e.error);
-						    },
-							onsendstream : function(e) {
-								if(null != progressupload) {
-									progressupload(e.progress * 100);
-								}
-								objLogger.info('Package getting progress (' + e.progress + ')');
-							},
-						    timeout: 30000
-						});
-						xhr.open('GET',ENetwork.urlServer + '' + retParsed.url);
-						xhr.send();*/
 					} else {
 						failed('Impossible de récupérer les informations depuis le serveur.');
 					}

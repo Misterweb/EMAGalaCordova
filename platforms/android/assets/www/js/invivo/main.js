@@ -1,6 +1,9 @@
 document.addEventListener("deviceready",onDeviceReady,false);
     // device APIs are available
     //
+    
+  
+ 
     function onDeviceReady() {
         
         register_include('js/lib/misc/GoTo.js');
@@ -8,9 +11,12 @@ document.addEventListener("deviceready",onDeviceReady,false);
         register_include('js/lib/network/ENetworkPackage.js');
         register_include('js/lib/image/Photo.js');
         register_include('js/lib/misc/Tools.js');
+        register_include('js/lib/misc/SQL.js');
         register_include('js/lib/history/HistoryManager.js');
         
         provoke_include(function() {
+            Tools.DenyBack();
+            
            if(ENetwork.IsAdmin()) {
                $j("#moderation").css("visibility","visible");
                $j("#conf").css("visibility","visible");
@@ -21,6 +27,7 @@ document.addEventListener("deviceready",onDeviceReady,false);
 
 function disconnect() {
     window.sessionStorage.clear();
+    window.localStorage.removeItem("LoginUser");
     gotoLogin();
 }
     
@@ -50,7 +57,7 @@ function capturePhoto() {
         }
     }, function(img) {
         window.sessionStorage.setItem("CurrentImage",JSON.stringify(img));
-        document.location.href = 'upload.html';
+        goToUpload();
     }, function() {
         alert("Une erreur s'est produite lors de la capture de la photo.");
     });

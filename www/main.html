@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width, height=device-height">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title></title>
@@ -16,11 +16,14 @@
 
   <!-- jQuery and jQuery Mobile -->
   <script type="text/javascript" src="js/jquery/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery/fastclick.js"></script>
   
   <script type="text/javascript">
       var $j = jQuery.noConflict();
+      $j(function() {
+            FastClick.attach(document.body);
+        });
   </script>
-  
   <script type="text/javascript" src="js/jquery/jquery.mobile-1.3.2.min.js"></script>
 
   
@@ -32,25 +35,26 @@
 <!-- Home -->
 <div data-role="page" id="page1">
     <div data-theme="a" data-role="header">
-        <h3>
-            Header
-        </h3>
+        <h1>
+            EMA Gala
+        </h1>
     </div>
     <div data-role="content">
         <a data-role="button" data-theme="a" href="#" data-icon="gear" data-iconpos="top" onclick="capturePhoto();">
             Prendre une photo
         </a>
-        <a data-role="button" data-theme="e" href="history.html" data-icon="grid" data-iconpos="top">
+        <a data-role="button" data-theme="e" href="#" data-icon="grid" data-iconpos="top" onclick="goToHistory();">
             Historique
         </a>
-        <a id="moderation" data-role="button" href="moderation.html" style="visibility: hidden;" data-icon="check" data-iconpos="top">
+        <a id="moderation" data-role="button" href="#" style="visibility: hidden;" data-icon="check" data-iconpos="top" onclick="goToModerate();">
             Modération
         </a>
-        <a id="conf" data-role="button" href="moderation.html" style="visibility: hidden;" data-icon="check" data-iconpos="top" onclick="confServer();">
+        <a id="conf" data-role="button" style="visibility: hidden;" data-icon="check" data-iconpos="top" onclick="confServer();">
             Configurer serveur distant
         </a>
     </div>
-    <div data-theme="a" data-role="footer">
+
+    <div data-theme="a" data-role="footer" data-position="fixed">
         <a data-role="button" data-theme="e" href="#" onclick="disconnect();">
             Déconnecter
         </a>

@@ -28,10 +28,14 @@ Photo.takePhotoExt = function(resizeParam, success, errorOrCancel) {
                 var image = new ImageObject();
                 image.Init(imageData);
                 
-                var hm = new HistoryManager();
-                hm.AddImage(image);
+                var hm = new HistoryManager(function() {
+                    hm.AddImage(image);
         
-                success(image);
+                    success(image);
+                }, function() {
+                    errorOrCancel();
+                });
+                
             }, function(errMsg) { // error
                 navigator.notification.alert("Veuillez nous excuser. Une erreur s'est produite lors de la prise de vue.");
                 console.error("[EMAGALA-PHOTO]"+errMsg);

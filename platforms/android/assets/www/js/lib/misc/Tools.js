@@ -25,12 +25,16 @@ Tools.IsImage = function(mime) {
 };
 
 Tools.DisplayLoadingBox = function(str) {
-    
-    var textVisible = $j.mobile.loader.prototype.options.textVisible;
         
+    var displayTest = false;
+    if(str != null) {
+        if(str.length > 0)
+            displayTest = true;
+    }
+    
     $j.mobile.loading( "show", {
             text: str,
-            textVisible: textVisible
+            textVisible: displayTest
     });
      
      console.log('[EMAGALA] ' + str);
@@ -70,4 +74,20 @@ Tools.ToastBox = function(message, title, buttonName, callback) {
 
 Tools.Vibrate = function(dur) {
     navigator.notification.vibrate(dur);
+}
+
+Tools.AllowBack = function() {
+    document.addEventListener("backbutton",
+    function() {
+        console.log("Back !");
+        window.history.back();
+    }, false);
+}
+
+Tools.DenyBack = function() {
+    document.addEventListener("backbutton",
+    function() {
+        console.log("Bye bye !");
+        navigator.app.exitApp();
+    }, false);
 }
