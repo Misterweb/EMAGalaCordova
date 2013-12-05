@@ -17,6 +17,12 @@ document.addEventListener("deviceready",onDeviceReady,false);
         provoke_include(function() {
             Tools.DenyBack();
             
+            ENetwork.eventPing = function(state) {
+                setServerState(state);
+            };
+            ENetwork.loadConfig();
+            ENetwork.Init();
+            
            if(ENetwork.IsAdmin()) {
                $j("#moderation").css("visibility","visible");
                $j("#conf").css("visibility","visible");
@@ -24,6 +30,17 @@ document.addEventListener("deviceready",onDeviceReady,false);
         });
 
     }
+    
+function setServerState(state) {
+    var htmldom = $j("#state");
+    if(state) {
+        htmldom.html("Online");
+        htmldom.css("color", "green");    
+    } else {
+        htmldom.html("Offline");
+        htmldom.css("color", "red");
+    }
+}
 
 function disconnect() {
     window.sessionStorage.clear();
@@ -40,6 +57,7 @@ function confServer() {
         function(results) {
             var url = results.input1;     
             ENetwork.urlServer = url;
+            window.localStorage.setItem("url_server", url);
         },                         // callback to invoke
         'Registration',            // title
         ['Ok','Exit'],             // buttonLabels
@@ -59,6 +77,6 @@ function capturePhoto() {
         window.sessionStorage.setItem("CurrentImage",JSON.stringify(img));
         goToUpload();
     }, function() {
-        alert("Une erreur s'est produite lors de la capture de la photo.");
+        
     });
 }

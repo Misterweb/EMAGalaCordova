@@ -37,7 +37,7 @@ Photo.takePhotoExt = function(resizeParam, success, errorOrCancel) {
                 });
                 
             }, function(errMsg) { // error
-                navigator.notification.alert("Veuillez nous excuser. Une erreur s'est produite lors de la prise de vue.");
+                //navigator.notification.alert("Veuillez nous excuser. Une erreur s'est produite lors de la prise de vue.");
                 console.error("[EMAGALA-PHOTO]"+errMsg);
                 
                 errorOrCancel();

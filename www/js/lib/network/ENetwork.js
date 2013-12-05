@@ -6,18 +6,39 @@ var ENetwork = function() {
 
 // Global
 ENetwork.typeNetwork = 0; // 0 -> internet, 1 -> local wifi
-ENetwork.urlServer   = 'http://192.168.173.1:8080';
+ENetwork.urlServer   = 'http://10.0.0.3';
 ENetwork.urlPost     = '/authenticated/publish?token='; // append token
 ENetwork.urlTestGet  = '/authenticated/?token=';
 ENetwork.urlLogin    = '/public/login';
+ENetwork.urlPing     = '/public';
 ENetwork.urlModerate = '/admin/moderate?token=';
 ENetwork.token       = null; // token received after a login
+ENetwork.online      = false;
+
+ENetwork.interval    = null;
+ENetwork.eventPing   = null;
 
 //ENetwork.prototype.extend = require('EObject');
+ENetwork.loadConfig = function() {
+    var url = window.localStorage.getItem("url_server");
+    
+    if(url) {
+        ENetwork.urlServer = url;
+    }
+};
 
 // Init the network
 ENetwork.Init = function() {
-	
+        ENetwork.CheckServer(function(ret) {
+                        ELogger.info("Pinged !");
+                        ENetwork.online = ret;
+                    });
+	ENetwork.interval = setInterval(function() {
+                ENetwork.CheckServer(function(ret) {
+                    ELogger.info("Pinged !");
+                    ENetwork.online = ret;
+                });
+        }, 10000);
 };
 
 // Check if the network is available and online
@@ -41,6 +62,33 @@ ENetwork.CheckLogged  = function() {
 	}
 	
 	return bRet;
+};
+
+ENetwork.CheckServer = function(ret) {
+    $j.ajax({url: ENetwork.urlServer + ENetwork.urlPing,
+            type: "HEAD",
+            timeout:5000,
+            statusCode: {
+                200: function (response) {
+                    ELogger.info("Server OK (200)");
+                    if(ENetwork.eventPing != null)
+                        ENetwork.eventPing(true);
+                    ret(true);
+                },
+                400: function (response) {
+                    ELogger.info("Server KO (400)");
+                    if(ENetwork.eventPing != null)
+                        ENetwork.eventPing(false);
+                    ret(false);
+                },
+                0: function (response) {
+                    ELogger.info("Server KO (0)");
+                    if(ENetwork.eventPing != null)
+                        ENetwork.eventPing(false);
+                    ret(false);
+                }              
+            }
+     });        
 };
 
 
@@ -79,7 +127,12 @@ ENetwork.GetTypeSpecs = function(typePackage) {
 	return dataToReturn;
 };
 
-ENetwork.SendData = function(pack, success, failed, progressupload) {
+ENetwork.SendData = function(pack, success, failed, progressupload, timeout) {
+    var timeoutTmp = 30000;
+    
+    if(timeout)
+        timeoutTmp = timeout;
+    
     ELogger.debug("SendData to " + ENetwork.GetTypeSpecs(pack.type).url);
 	if(ENetwork.CheckNetwork()) {
             try {
@@ -272,3 +325,4 @@ ENetwork.GetLastImageToModerate = function(success, failed, progressupload) {
 		}
 	);
 };
+

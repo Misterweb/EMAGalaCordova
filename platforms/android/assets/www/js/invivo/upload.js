@@ -14,6 +14,12 @@ document.addEventListener("deviceready",onDeviceReady,false);
         provoke_include(function() {
             Tools.AllowBack();
             
+            ENetwork.eventPing = function(state) {
+                setServerState(state);
+            };
+            ENetwork.loadConfig();
+            ENetwork.Init();
+            
                     // check here if the image if getted, if not redirect to error page
             var img = JSON.parse(window.sessionStorage.getItem("CurrentImage"));
             if(img != null) {
@@ -25,6 +31,17 @@ document.addEventListener("deviceready",onDeviceReady,false);
                 window.location.href = "main.html";
             }
         });
+    }
+    
+    function setServerState(state) {
+        var htmldom = $j("#state");
+        if(state) {
+            htmldom.html("Online");
+            htmldom.css("color", "green");    
+        } else {
+            htmldom.html("Offline");
+            htmldom.css("color", "red");
+        }
     }
     
     function displayProgressBar() {
@@ -55,7 +72,9 @@ document.addEventListener("deviceready",onDeviceReady,false);
             Tools.Vibrate(200);
             setTimeout(function() {
                 Tools.Vibrate(200);
-                gotoMain();
+                
+                window.history.back();
+                
             },300);
         }, function(e) {
             var History = new HistoryManager(function() {

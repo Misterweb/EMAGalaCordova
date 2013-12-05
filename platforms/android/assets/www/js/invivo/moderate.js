@@ -13,6 +13,8 @@ document.addEventListener("deviceready",onDeviceReady,false);
         provoke_include(function() {
             Tools.AllowBack();
             
+            ENetwork.loadConfig();
+            
                     // check here if the image if getted, if not redirect to error page
             loadNextImage();
         });

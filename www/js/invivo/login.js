@@ -1,4 +1,4 @@
-
+var IntervalCheck = null;
 document.addEventListener("deviceready",onDeviceReady,false);
 
     // device APIs are available
@@ -8,15 +8,37 @@ document.addEventListener("deviceready",onDeviceReady,false);
         register_include('js/lib/misc/GoTo.js');
         register_include('js/lib/network/ENetwork.js');
         register_include('js/lib/network/ENetworkPackage.js');
+        register_include('js/lib/misc/ELogger.js');
         register_include('js/lib/misc/Tools.js');
         
         provoke_include(function() {
             Tools.DenyBack();
+            
             Tools.DisplayLoadingBox("Vérification");
+            
+            ENetwork.eventPing = function(state) {
+                setServerState(state);
+            };
+            ENetwork.loadConfig();
+            ENetwork.Init();
+            
+            
             checkLogged();
+            
             Tools.HideLoadingBox();
         });
     }
+    
+function setServerState(state) {
+    var htmldom = $j("#state");
+    if(state) {
+        htmldom.html("(Online)");
+        htmldom.css("color", "green");    
+    } else {
+        htmldom.html("(Offline)");
+        htmldom.css("color", "red");
+    }
+}
 
 function checkLogged() {
     Tools.DisplayLoadingBox();
@@ -127,6 +149,7 @@ function okLogin(registerUser) {
         if(registerUser)
             saveUser();
         Tools.Vibrate(50);
+        clearInterval(IntervalCheck);
         gotoMain();
     }
 }
@@ -161,6 +184,7 @@ function send_login_password(e) {
         function(results) {
             var url = results.input1;     
             ENetwork.urlServer = url;
+            window.localStorage.setItem("url_server", url);
         },                         // callback to invoke
         'Registration',            // title
         ['Ok','Exit'],             // buttonLabels
